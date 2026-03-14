@@ -102,16 +102,16 @@ bus-analysis-coursework/
 ## 📸 Скриншоты
 
 ### Главное окно
-screenshots/main_window.png
+![Главное окно](screenshots/main_window.png)
 
 ### Аналитика
-screenshots/analytics.png
+![Аналитика](screenshots/analytics.png)
 
 ### Дашборд
-screenshots/dashboard.png	
+![Дашборд](screenshots/dashboard.png)	
 
 ### Рейсы
-screenshots/trips.png
+![Рейсы](screenshots/trips.png)
 
 ## 🧪 Тестовые данные
 ### В программе предустановлены:
