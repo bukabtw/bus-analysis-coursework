@@ -44,10 +44,10 @@
 ### Локальный запуск
 
 1. **Клонируйте репозиторий**
-   ```bash
-   git clone https://github.com/your-username/bus-analysis-coursework.git
-   cd bus-analysis-coursework
-   ```
+```bash
+git clone https://github.com/your-username/bus-analysis-coursework.git
+cd bus-analysis-coursework
+```
 
 2. **Установите зависимости**
 ```bash
@@ -102,16 +102,16 @@ bus-analysis-coursework/
 ## 📸 Скриншоты
 
 ### Главное окно
-https://screenshots/main_window.png	
+screenshots/main_window.png
 
 ### Аналитика
-https://screenshots/analytics.png
+screenshots/analytics.png
 
 ### Дашборд
-https://screenshots/dashboard.png	
+screenshots/dashboard.png	
 
 ### Рейсы
-https://screenshots/trips.png
+screenshots/trips.png
 
 ## 🧪 Тестовые данные
 ### В программе предустановлены:
