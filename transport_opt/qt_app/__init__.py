@@ -11,6 +11,7 @@ def main() -> int:
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
     app.setApplicationName("BAC Автопарк")
+    app.setOrganizationName("BAC")
     window = MainWindow()
     window.show()
     return app.exec()
