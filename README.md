@@ -119,4 +119,4 @@ reports/report_20260325_233858.txt
 - Email: [bukarev.k11@gmail.com](mailto:bukarev.k11@gmail.com)
 - GitHub: [bukabtw](https://github.com/bukabtw)
 
-*Выполнено в 2026 году в рамках курсовой работы.*)
+*Выполнено в 2026 году в рамках курсовой работы.*
