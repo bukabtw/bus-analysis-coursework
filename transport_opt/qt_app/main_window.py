@@ -1,13 +1,20 @@
 from __future__ import annotations
+
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QHBoxLayout, QVBoxLayout,
     QListWidget, QStackedWidget, QLabel, QFrame
 )
 
+from .data_service import AppDataService
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        
+        self.service = AppDataService()
+        
         self.setWindowTitle("BAC Автопарк")
         self.resize(1200, 800)
         
@@ -26,7 +33,18 @@ class MainWindow(QMainWindow):
         self.stack = QStackedWidget()
         
         for name in ["Дашборд", "Аналитика", "Автобусы", "Маршруты", "Водители", "Рейсы", "Карта"]:
-            page = QLabel(f"Страница: {name}")
+            if name == "Дашборд":
+                stats = self.service.dashboard_metrics()
+                text = f"""
+                Всего автобусов: {stats.total_buses}
+                В рейсе сегодня: {stats.active_buses}
+                Средняя загрузка: {stats.avg_load}%
+                Критические маршруты: {stats.critical_routes}
+                Отчетная дата: {stats.reference_date}
+                """
+                page = QLabel(text)
+            else:
+                page = QLabel(f"Страница: {name}\n(будет реализована позже)")
             page.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self.stack.addWidget(page)
         
