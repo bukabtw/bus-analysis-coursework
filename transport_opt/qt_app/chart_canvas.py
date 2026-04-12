@@ -22,6 +22,7 @@ class ChartCanvas(QFrame):
         self._color = QColor("#3182CE")
         self._labels: list[str] = []
         self._values: list[float] = []
+        self._force_show_all_labels = False
 
     def set_theme(self, theme_name: str) -> None:
         self._theme = get_theme(theme_name)
@@ -36,6 +37,7 @@ class ChartCanvas(QFrame):
         self._color = QColor(color)
         self._labels = labels
         self._values = values
+        self._force_show_all_labels = False
         self.update()
 
     def plot_bar(self, labels, values, title: str, x_label: str, y_label: str, color: str) -> None:
@@ -47,6 +49,7 @@ class ChartCanvas(QFrame):
         self._color = QColor(color)
         self._labels = normalized_labels
         self._values = normalized_values
+        self._force_show_all_labels = len(normalized_labels) <= 15
         self.update()
 
     def paintEvent(self, event) -> None:
@@ -226,11 +229,21 @@ class ChartCanvas(QFrame):
         if not self._labels:
             return
 
-        tick_count = min(len(self._labels), 6)
-        if self._mode == "line" and len(self._labels) == 1:
-            positions = [0]
+        is_hourly_chart = (
+            len(self._labels) == 24 and 
+            all(str(label).isdigit() and 0 <= int(label) <= 23 for label in self._labels)
+        )
+
+        if self._force_show_all_labels:
+            positions = list(range(len(self._labels)))
+        elif is_hourly_chart:
+            positions = list(range(24))
         else:
-            positions = [round(index * (len(self._labels) - 1) / max(tick_count - 1, 1)) for index in range(tick_count)]
+            tick_count = min(len(self._labels), 6)
+            if self._mode == "line" and len(self._labels) == 1:
+                positions = [0]
+            else:
+                positions = [round(index * (len(self._labels) - 1) / max(tick_count - 1, 1)) for index in range(tick_count)]
 
         seen: set[int] = set()
         for position in positions:
@@ -238,7 +251,11 @@ class ChartCanvas(QFrame):
                 continue
             seen.add(position)
             x = self._x_for_index(position, plot_rect)
-            text_rect = QRectF(x - 36, plot_rect.bottom() + 0.5, 72, 18)
+            
+            if is_hourly_chart:
+                text_rect = QRectF(x - 12, plot_rect.bottom() + 4, 24, 18)
+            else:
+                text_rect = QRectF(x - 36, plot_rect.bottom() + 0.5, 72, 18)
             painter.drawText(text_rect, Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop, self._labels[position])
 
     def _line_point(self, index: int, value: float, plot_rect: QRectF, y_min: float, y_max: float) -> QPointF:

@@ -406,9 +406,10 @@ class TransportMapPanel(QWidget):
         self.legend_scroll.setMinimumHeight(160)
         self.legend_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.legend_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.legend_scroll.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
         self._update_legend_style()
-        controls_layout.addWidget(self.legend_scroll)
+        controls_layout.addWidget(self.legend_scroll, stretch=1)
 
         root_layout.addWidget(controls_card, stretch=1)
         self._speed_changed(self.speed_slider.value())

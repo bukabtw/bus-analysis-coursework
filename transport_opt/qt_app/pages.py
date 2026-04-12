@@ -85,15 +85,15 @@ def _configure_combo(combo: QComboBox, minimum_width: int = 220) -> None:
     view.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
     view.setUniformItemSizes(True)
     view.setWordWrap(False)
+    view.setAutoScroll(False)
 
     combo.setView(view)
-    combo.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+    combo.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
     combo.setCursor(Qt.CursorShape.PointingHandCursor)
     combo.setMinimumWidth(minimum_width)
     combo.setMaxVisibleItems(10)
     combo.setMinimumContentsLength(16)
     combo.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToMinimumContentsLengthWithIcon)
-
 
 def _configure_date_edit(widget: QDateEdit) -> None:
     calendar = QCalendarWidget()
@@ -163,6 +163,12 @@ class PopupComboBox(QComboBox):
         popup.setMinimumWidth(popup_width)
         popup.setGeometry(x, y, popup_width, popup_height)
         popup.raise_()
+
+    def wheelEvent(self, event) -> None:
+        if not self.view().isVisible():
+            event.ignore()
+        else:
+            super().wheelEvent(event)
 
 
 class MetricCard(QFrame):
@@ -716,12 +722,17 @@ class TripsPage(BasePage):
 
         _configure_date_edit(self.date_edit)
         self.date_edit.setDisplayFormat("yyyy-MM-dd")
+        
         self.time_edit.setDisplayFormat("HH:mm")
+        self.time_edit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.time_edit.setButtonSymbols(QTimeEdit.ButtonSymbols.NoButtons)
+        self.time_edit.setCursor(Qt.CursorShape.IBeamCursor)
+        
         self.passenger_input.setRange(0, 500)
         self.passenger_input.setValue(60)
-        self.time_edit.setFocusPolicy(Qt.FocusPolicy.NoFocus)
-        self.time_edit.setCursor(Qt.CursorShape.PointingHandCursor)
-        self.passenger_input.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.passenger_input.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.passenger_input.setButtonSymbols(QSpinBox.ButtonSymbols.NoButtons)
+
         _configure_combo(self.route_combo)
         _configure_combo(self.bus_combo)
         _configure_combo(self.driver_combo)

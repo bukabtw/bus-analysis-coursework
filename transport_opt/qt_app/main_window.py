@@ -250,7 +250,7 @@ class MainWindow(QMainWindow):
     def _toggle_theme(self) -> None:
         next_theme = "dark" if self.current_theme == "light" else "light"
         self._apply_theme(next_theme)
-        title = "тёмная" if next_theme == "dark" else "светлая"
+        title = "темная" if next_theme == "dark" else "светлая"
         self.statusBar().showMessage(f"Тема переключена: {title}.")
 
     def _handle_data_changed(self, message: str) -> None:
@@ -269,7 +269,7 @@ class MainWindow(QMainWindow):
         self.settings.setValue("theme", theme_name)
         palette = get_theme(theme_name)
         self.setStyleSheet(build_stylesheet(palette))
-        self.theme_button.setText(f"Тема: {'тёмная' if theme_name == 'dark' else 'светлая'}")
+        self.theme_button.setText(f"Тема: {'темная' if theme_name == 'dark' else 'светлая'}")
         for page in self.pages.values():
             if hasattr(page, "set_theme"):
                 page.set_theme(theme_name)
