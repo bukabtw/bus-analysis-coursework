@@ -31,7 +31,7 @@ from PyQt6.QtWidgets import (
 
 from .data_service import AppDataService
 from .map_widget import TransportMapPanel
-from .matplotlib_canvas import ChartCanvas
+from .chart_canvas import ChartCanvas
 from .theme import get_theme
 
 
