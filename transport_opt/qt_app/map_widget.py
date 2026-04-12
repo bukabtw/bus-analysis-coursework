@@ -267,8 +267,7 @@ class TransportMapPanel(QWidget):
         self.theme_name = "light"
         self.search_query = ""
         self.current_hour = 8.0
-        self.setMinimumHeight(560)
-        self.legend_scroll = None
+        self.setMinimumHeight(100)
 
         self.map_canvas = TransportMapCanvas(self)
         self.active_buses_label = QLabel("Активных автобусов: 0")
@@ -282,6 +281,7 @@ class TransportMapPanel(QWidget):
         self.routes_checkbox = QCheckBox("Маршруты")
         self.stops_checkbox = QCheckBox("Остановки")
         self.legend_layout = QVBoxLayout()
+        self.main_controls_scroll = None
 
         self.timer = QTimer(self)
         self.timer.setInterval(40)
@@ -294,27 +294,6 @@ class TransportMapPanel(QWidget):
     def set_theme(self, theme_name: str) -> None:
         self.theme_name = theme_name
         self.map_canvas.set_theme(theme_name)
-        self._update_legend_style()
-
-    def _update_legend_style(self) -> None:
-        if not hasattr(self, "legend_scroll") or self.legend_scroll is None:
-            return
-        theme = get_theme(self.theme_name)
-        self.legend_scroll.setStyleSheet(
-            f"""
-            QScrollArea {{
-                background: {theme.card_bg};
-                border: none;
-            }}
-            QWidget {{
-                background: {theme.card_bg};
-                color: {theme.text};
-            }}
-            QLabel {{
-                color: {theme.text};
-            }}
-        """
-        )
 
     def set_search(self, query: str) -> None:
         self.search_query = query.strip()
@@ -335,12 +314,21 @@ class TransportMapPanel(QWidget):
         root_layout.setSpacing(16)
         root_layout.addWidget(self.map_canvas, stretch=3)
 
-        controls_card = QFrame(self)
+        self.main_controls_scroll = QScrollArea()
+        self.main_controls_scroll.setWidgetResizable(True)
+        self.main_controls_scroll.setFrameShape(QFrame.Shape.NoFrame)
+        self.main_controls_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.main_controls_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.main_controls_scroll.setFixedWidth(280)
+        
+        self.main_controls_scroll.setObjectName("controlsScrollArea")
+        
+        controls_card = QFrame()
         controls_card.setObjectName("contentCard")
         controls_layout = QVBoxLayout(controls_card)
         controls_layout.setContentsMargins(18, 18, 18, 18)
         controls_layout.setSpacing(12)
-
+        
         title = QLabel("Управление симуляцией")
         title.setObjectName("sectionTitle")
         controls_layout.addWidget(title)
@@ -398,24 +386,16 @@ class TransportMapPanel(QWidget):
         legend_container.setLayout(self.legend_layout)
         self.legend_layout.setContentsMargins(0, 0, 0, 0)
         self.legend_layout.setSpacing(8)
+        controls_layout.addWidget(legend_container)
+        
+        controls_layout.addStretch(1)
+        self.main_controls_scroll.setWidget(controls_card)
+        root_layout.addWidget(self.main_controls_scroll)
 
-        self.legend_scroll = QScrollArea()
-        self.legend_scroll.setFrameShape(QFrame.Shape.NoFrame)
-        self.legend_scroll.setWidgetResizable(True)
-        self.legend_scroll.setWidget(legend_container)
-        self.legend_scroll.setMinimumHeight(160)
-        self.legend_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.legend_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
-        self.legend_scroll.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-
-        self._update_legend_style()
-        controls_layout.addWidget(self.legend_scroll, stretch=1)
-
-        root_layout.addWidget(controls_card, stretch=1)
         self._speed_changed(self.speed_slider.value())
         self._time_changed(self.time_slider.value())
         self._update_layers()
-
+        
     def _rebuild_legend(self, static_data: MapStaticData) -> None:
         while self.legend_layout.count():
             item = self.legend_layout.takeAt(0)
