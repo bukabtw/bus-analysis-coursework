@@ -532,7 +532,7 @@ class BusesPage(BasePage):
         except ValueError as error:
             QMessageBox.warning(self, "Автобусы", str(error))
             return
-        except Exception as error:  # pragma: no cover - defensive UI guard
+        except Exception as error:
             QMessageBox.critical(self, "Автобусы", str(error))
             return
 
@@ -603,7 +603,7 @@ class RoutesPage(BasePage):
         except ValueError as error:
             QMessageBox.warning(self, "Маршруты", str(error))
             return
-        except Exception as error:  # pragma: no cover - defensive UI guard
+        except Exception as error:
             QMessageBox.critical(self, "Маршруты", str(error))
             return
 
@@ -673,7 +673,7 @@ class DriversPage(BasePage):
         except ValueError as error:
             QMessageBox.warning(self, "Водители", str(error))
             return
-        except Exception as error:  # pragma: no cover - defensive UI guard
+        except Exception as error:
             QMessageBox.critical(self, "Водители", str(error))
             return
 
@@ -919,7 +919,7 @@ class TripsPage(BasePage):
         except ValueError as error:
             QMessageBox.warning(self, "Рейсы", str(error))
             return
-        except Exception as error:  # pragma: no cover - defensive UI guard
+        except Exception as error:
             QMessageBox.critical(self, "Рейсы", str(error))
             return
 

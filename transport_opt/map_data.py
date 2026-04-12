@@ -31,7 +31,6 @@ ROUTE_POINT_SPACING_KM = 0.28
 TERMINAL_DWELL_HOURS = 0.12
 DISPLAY_PADDING_RATIO = 0.12
 
-# The first 12 templates build a full grid: 6 horizontal trunks and 6 vertical trunks.
 ROUTE_TEMPLATE_SEQUENCE = [
     ("horizontal", 0, False),
     ("horizontal", 2, True),
