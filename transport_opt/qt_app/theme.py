@@ -264,7 +264,7 @@ def build_stylesheet(theme: ThemePalette) -> str:
     QPushButton[kind="accent"]:hover {{
         background: {theme.accent_hover};
     }}
-    QLineEdit, QComboBox, QDateEdit, QTimeEdit, QSpinBox, QListWidget, QTableWidget, QPlainTextEdit {{
+    QLineEdit, QComboBox, QDateEdit, QTimeEdit, QSpinBox, QPlainTextEdit {{
         background: {theme.input_bg};
         border: 1px solid {theme.input_border};
         border-radius: 12px;
@@ -272,6 +272,15 @@ def build_stylesheet(theme: ThemePalette) -> str:
         color: {theme.input_text};
         selection-background-color: {theme.selection_bg};
         selection-color: {theme.selection_text};
+    }}
+    QListWidget, QTableWidget, QListView, QTreeView {{
+        background: {theme.input_bg};
+        border: 1px solid {theme.input_border};
+        border-radius: 12px;
+        color: {theme.input_text};
+        selection-background-color: {theme.selection_bg};
+        selection-color: {theme.selection_text};
+        outline: none;
     }}
     QSpinBox, QTimeEdit, QDateEdit {{
         padding-right: 42px;
@@ -356,6 +365,18 @@ def build_stylesheet(theme: ThemePalette) -> str:
         padding: 8px 12px;
         border: none;
     }}
+    QComboBox QAbstractItemView::item:hover {{
+        background: {theme.button_hover};
+        color: {theme.text};
+    }}
+    QComboBox QAbstractItemView::item:selected {{
+        background: {theme.selection_bg};
+        color: {theme.selection_text};
+    }}
+    QComboBox QAbstractItemView::item:selected:hover {{
+        background: {theme.selection_bg};
+        color: {theme.selection_text};
+    }}
     QCalendarWidget QToolButton {{
         background: {theme.button_bg};
         color: {theme.button_text};
@@ -429,7 +450,15 @@ def build_stylesheet(theme: ThemePalette) -> str:
         border: none;
         padding: 8px 10px;
     }}
+    QTableWidget::item:hover {{
+        background: {theme.button_hover};
+        color: {theme.text};
+    }}
     QTableWidget::item:selected {{
+        background: {theme.selection_bg};
+        color: {theme.selection_text};
+    }}
+    QTableWidget::item:selected:hover {{
         background: {theme.selection_bg};
         color: {theme.selection_text};
     }}
@@ -444,6 +473,23 @@ def build_stylesheet(theme: ThemePalette) -> str:
         padding: 10px;
         font-weight: 700;
     }}
+    QListView::item, QListWidget::item, QTreeView::item {{
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin: 2px 4px;
+    }}
+    QListView::item:hover, QListWidget::item:hover, QTreeView::item:hover {{
+        background: {theme.button_hover};
+        color: {theme.text};
+    }}
+    QListView::item:selected, QListWidget::item:selected, QTreeView::item:selected {{
+        background: {theme.selection_bg};
+        color: {theme.selection_text};
+    }}
+    QListView::item:selected:hover, QListWidget::item:selected:hover, QTreeView::item:selected:hover {{
+        background: {theme.selection_bg};
+        color: {theme.selection_text};
+    }}
     QListWidget#recommendationList {{
         padding: 8px;
     }}
@@ -455,9 +501,16 @@ def build_stylesheet(theme: ThemePalette) -> str:
         margin: 3px 0;
     }}
     QListWidget#recommendationList::item:hover {{
+        background: {theme.button_hover};
+        color: {theme.text};
         border: 1px solid {theme.accent_bg};
     }}
     QListWidget#recommendationList::item:selected {{
+        background: {theme.selection_bg};
+        color: {theme.selection_text};
+        border: 1px solid {theme.selection_bg};
+    }}
+    QListWidget#recommendationList::item:selected:hover {{
         background: {theme.selection_bg};
         color: {theme.selection_text};
         border: 1px solid {theme.selection_bg};
